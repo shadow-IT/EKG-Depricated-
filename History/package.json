@@ -1,0 +1,14 @@
+{
+  "name": "history",
+  "version": "1.0.0",
+  "description": "### Purpose **Provide data to requesters about services.**",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Avery Lindley <develop.lindley@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

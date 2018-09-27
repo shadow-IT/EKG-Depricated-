@@ -1,0 +1,16 @@
+{
+	"name": "commuter",
+	"version": "1.0.0",
+	"description": "A service that goes to apis and asks for their health.",
+	"main": "server.js",
+	"scripts": {
+		"dev": "node server.js",
+		"start": "NODE_ENV=production node server.js"
+	},
+	"author": "Avery Lindley <Develop.lindley@gmail.com>",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.16.3",
+		"isomorphic-unfetch": "^3.0.0"
+	}
+}
