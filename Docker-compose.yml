@@ -1,7 +1,6 @@
 version: "3"
 services:
   redis:
-    # replace username/repo:tag with your name and image details
     image: redis
     deploy:
       replicas: 1
@@ -11,7 +10,6 @@ services:
       - "6379:6379"
 
   history:
-    # replace username/repo:tag with your name and image details
     image: history
     deploy:
       replicas: 1
@@ -21,6 +19,17 @@ services:
       - "3001:3001"
     depends_on:
       - redis
+
+  monitor:
+    image: monitor
+    ports:
+      - "3000:3000"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - history
 
   visualizer:
     image: dockersamples/visualizer:stable

@@ -1,21 +1,19 @@
+import fetch from 'isomorphic-unfetch'
+
 const Index = (props) => (
 	<div>
-		<p>Hello world!</p>
-		<ul>{props.results.map(result => {
-			return result.isUp
-				? <li>{result.name} is up</li>
-				: <li>{result.name} is down</li>
-		})}</ul>
+		<h1>Refresh test</h1>
+		<p>{props.result}</p>
 	</div>
 )
 
-Index.getInitialProps = function() {
-	// TODO
-	return {
-		results: [{
-			name: 'Test name',
-			isUp: true
-	}]}
+Index.getInitialProps = async function() {
+	console.log('about to fetch')
+	const res = await fetch('http://history:3001/api')
+	const json = await res.json()
+	console.log('after parse:', json)
+
+	return json
 }
 
 export default Index

@@ -4,6 +4,8 @@ var redis = require('redis');
 
 var app = express();
 var bodyParser = require('body-parser')
+const PORT = 3001
+
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
@@ -18,12 +20,6 @@ client.on('error', function (err) {
 	console.log('Something went wrong ' + err);
 });
 
-// REMOVEME
-client.set('testName', true, redis.print)
-client.set('count', 1, redis.print);
-
-
-const PORT = 3001
 
 app.get('/', function(req, res){
 	res.send('hello History!');
