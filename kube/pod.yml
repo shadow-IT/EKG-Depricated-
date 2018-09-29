@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monitor-pod
+  labels:
+    zone: local
+    version: v1
+spec:
+  containers:
+    - name: monitor-container
+      image: lindlaaa/monitor:latest
+      ports:
+        - containerPort: 3000
+        
