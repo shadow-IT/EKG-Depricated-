@@ -1,8 +1,29 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 var redis = require('redis');
+var swaggerJSDoc = require('swagger-jsdoc');
 
 var app = express();
+// swagger definition
+var swaggerDefinition = {
+	info: {
+		title: 'Node Swagger API',
+		version: '1.0.0',
+		description: 'Demonstrating how to describe a RESTful API with Swagger',
+	},
+	host: 'localhost:3000',
+	basePath: '/',
+};
+// options for the swagger docs
+var options = {
+	// import swaggerDefinitions
+	swaggerDefinition: swaggerDefinition,
+	// path to the API docs
+	apis: ['./**/routes/*.js','routes.js'],// pass all in array 
+
+};
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
 var bodyParser = require('body-parser')
 const PORT = 3001
 
@@ -20,7 +41,27 @@ client.on('error', function (err) {
 	console.log('Something went wrong ' + err);
 });
 
+// serve swagger
+app.get('/swagger.json', function(req, res) {
+	res.setHeader('Content-Type', 'application/json');
+	res.send(swaggerSpec);
+});
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     tags:
+ *       - users
+ *     description: Returns the number of entries in the DB.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An int of entries
+ *         schema:
+ *           $ref: '#/definitions/root'
+ */
 app.get('/', function(req, res){
 	res.send('hello History!');
 });
