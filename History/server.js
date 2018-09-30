@@ -45,27 +45,5 @@ app.get('/api/:serviceName', function(req, res) {
 	});
 })
 
-app.post('/api/:serviceName', function(req, res) {
-	const serviceName = req.params.serviceName
-	const url = req.body.url
-
-	if(!serviceName || !url){
-		res.statusCode = 400
-		console.log('A param is missing')
-		res.send('A required param is missing.')
-		return
-	}
-
-	console.log(serviceName)
-	client.set(serviceName, url, function (error, result) {
-		console.log('client.set ',serviceName, ' url:', url)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		res.send(result)
-	});
-})
-
 console.log('Listening on port:',PORT)
 app.listen(PORT);
