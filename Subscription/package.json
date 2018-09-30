@@ -1,0 +1,16 @@
+{
+  "name": "Subscription",
+  "version": "1.0.0",
+  "description": "A service that provides all of the subscribed services.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Avery Lindley <develop.lindley@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "redis": "^2.8.0"
+  }
+}
