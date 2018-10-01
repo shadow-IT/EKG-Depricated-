@@ -10,7 +10,7 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 })); 
-var client = redis.createClient('https://redis-status:6379');
+var client = redis.createClient('https://redis-status');
 
 client.on('connect', function() {
 	console.log('Redis client connected');
