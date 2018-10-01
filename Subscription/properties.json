@@ -1,0 +1,15 @@
+{
+	"services": [{
+		"name": "testService1",
+		"url": "testurl.com"
+	},{
+		"name": "testService2",
+		"url": "testurl2.com"
+	},{
+		"name": "testService3",
+		"url": "testurl3.com"
+	},{
+		"name": "testService4",
+		"url": "testurl4.com"
+	}]
+}

@@ -1,7 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 var redis = require('redis');
-
+let properties = require('./properties.json')
+let { set, size, get } = require('./subscriptions.js')
 var app = express();
 var bodyParser = require('body-parser')
 const PORT = 3003
@@ -20,29 +21,31 @@ client.on('error', function (err) {
 	console.log('Something went wrong ' + err);
 });
 
+properties.services.map(service => {
+	let serviceName = service.name
+	let serviceUrl = service.url
+
+	set(serviceName, serviceUrl)
+});
+
 
 app.get('/', function(req, res){
-	res.send('hello Subscription!');
+	res.send(properties);
 });
 
 app.get('/api', function(req, res) {
-	client.dbsize(function(error, result) {
-		console.log('result:',result)
-		res.send({result})
-	})
+	res.send( size() )
 })
 
 app.get('/api/:serviceName', function(req, res) {
 	const serviceName = req.params.serviceName
-	client.get(serviceName, function (error, result) {
-		console.log('client.get,', serviceName)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		console.log('GET result ->' + result);
-		res.send(result)
-	});
+	res.send( get(serviceName) )
+})
+
+app.patch('/api/properties', function(req, res) {
+	properties = require('./properties.json')
+	console.log(properties)
+	res.send(properties)
 })
 
 app.post('/api/:serviceName', function(req, res) {
@@ -57,14 +60,7 @@ app.post('/api/:serviceName', function(req, res) {
 	}
 
 	console.log(serviceName)
-	client.set(serviceName, url, function (error, result) {
-		console.log('client.set ',serviceName, ' url:', url)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		res.send(result)
-	});
+	res.send( set(serviceName, url) )
 })
 
 console.log('Listening on port:',PORT)
