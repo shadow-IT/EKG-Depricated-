@@ -8,6 +8,7 @@
 | Cadence 		| Controls the pace of the data collection 				|
 | Subscription 	| Contains the configuration data for the application 	|
 | Commuter 		| Travels to the services to check their status 		|
+| History		| Contains the history of status and current status		|
 
 
 ## Purpose
