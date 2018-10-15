@@ -16,4 +16,8 @@ app.get('/', function(req, res) {
 	})
 })
 
+app.get('/health' , function(req, res) {
+	res.sendStatus(200)
+})
+
 app.listen(port, () => console.log(`Commuter listening on port ${port}!`))

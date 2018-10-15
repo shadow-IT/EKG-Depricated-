@@ -6,6 +6,6 @@ WORKDIR /app/
 
 RUN npm install
 
-EXPOSE 3003
+EXPOSE 3004
 
 ENTRYPOINT ["npm", "start"]

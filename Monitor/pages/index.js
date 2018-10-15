@@ -4,9 +4,12 @@ const Index = (props) => (
 	<div>
 		<h1>Refresh test</h1>
 		<ul>
-		{props.result.map(result => (
-			<li>{result.name}: {result.status}</li>
-		)) || <p>No results from dependencies.</p>}
+		{props.results.map(result => {
+			let color = result.status == 200
+				? {color: 'green'}
+				: {color: 'red'}
+			return <li style={color}>{result.name}</li>
+		})}
 		</ul>
 	</div>
 )
@@ -18,12 +21,24 @@ Index.getInitialProps = async function() {
 	const subscriptionRes = await fetch('http://subscription:3003/health')
 	const subscriptionStatus = await subscriptionRes.status
 
-	return {result: [{
+	const cadenceRes = await fetch('http://cadence:3002/health')
+	const cadenceStatus = await cadenceRes.status
+
+	const commuterRes = await fetch('http://commuter:3004/health')
+	const commuterStatus = await commuterRes.status
+
+	return {results: [{
 		name: 'history',
 		status: historyStatus
-	}, {
+	},{
 		name: 'subscription',
 		status: subscriptionStatus
+	},{
+		name: 'cadence',
+		status: cadenceStatus
+	},{
+		name: 'commuter',
+		status: commuterStatus
 	}]}
 }
 
