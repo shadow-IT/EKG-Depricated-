@@ -30,8 +30,12 @@ properties.services.map(service => {
 
 
 app.get('/', function(req, res){
-	res.send(properties);
+	res.send('Hello Subscription!\n' + properties);
 });
+
+app.get('/health' , function(req, res) {
+	res.sendStatus(200)
+})
 
 app.get('/api', function(req, res) {
 	res.send( size() )

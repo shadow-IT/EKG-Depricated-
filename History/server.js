@@ -25,6 +25,10 @@ app.get('/', function(req, res){
 	res.send('hello History!');
 });
 
+app.get('/health', function(req, res) {
+	res.sendStatus(200)
+})
+
 app.get('/api', function(req, res) {
 	client.dbsize(function(error, result) {
 		console.log('result:',result)
@@ -41,6 +45,20 @@ app.get('/api/:serviceName', function(req, res) {
 			throw error;
 		}
 		console.log('GET result ->' + result);
+		res.send(result)
+	});
+})
+
+app.post('/api', function(req, res) {
+	const serviceName = req.body.serviceName
+	const serviceResponse = req.body.serviceResponse
+	client.set(serviceName, serviceResponse, function (error, result) {
+		console.log('client.SET,', serviceName)
+		if (error) {
+			console.log(error);
+			throw error;
+		}
+		console.log('SET result ->' + result);
 		res.send(result)
 	});
 })

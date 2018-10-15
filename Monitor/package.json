@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "image": "docker build -t monitor ."
   },
   "author": "Avery Lindley <Develop.lindley@gmail.com>",
   "license": "ISC",

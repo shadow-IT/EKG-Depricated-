@@ -4,8 +4,13 @@
   "description": "A service that makes calls to other services on a schedule.",
   "main": "cadence.js",
   "scripts": {
-    "start": "echo \"Error: no test specified\""
+    "dev": "node cadence.js",
+    "start": "NODE_ENV=production node cadence.js",
+    "image": "docker build -t cadence . --no-cache"
   },
   "author": "Avery Lindley <develop.lindley@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }

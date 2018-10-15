@@ -49,6 +49,19 @@ services:
     depends_on:
       - redis-subscription
 
+  commuter:
+    image: commuter
+    ports:
+      - "3004:3004"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - history
+      - subscription
+      - cadence
+
   monitor:
     image: monitor
     ports:
