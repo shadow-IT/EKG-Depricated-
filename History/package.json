@@ -4,7 +4,9 @@
   "description": "### Purpose **Provide data to requesters about services.**",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js",
+		"image": "docker build -t history . --no-cache"
   },
   "author": "Avery Lindley <develop.lindley@gmail.com>",
   "license": "ISC",

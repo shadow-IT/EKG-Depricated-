@@ -4,8 +4,9 @@
 	"description": "A service that goes to apis and asks for their health.",
 	"main": "server.js",
 	"scripts": {
-		"dev": "node server.js",
-		"start": "NODE_ENV=production node server.js"
+		"dev": "node commuter.js",
+		"start": "NODE_ENV=production node commuter.js",
+		"image": "docker build -t commuter . --no-cache"
 	},
 	"author": "Avery Lindley <Develop.lindley@gmail.com>",
 	"license": "ISC",
