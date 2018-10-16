@@ -9,19 +9,22 @@ library.add(fasHeart, fasHeartbeat, farHeart)
 
 const Index = (props) => (
 	<div>
-		<h1>Refresh test</h1>
-		<ul>
-		{props.results.map(result => {
-			let color = result.status == 200
-				? {color: 'green'}
-				: {color: 'red'}
-			return <li style={color}>{result.name}</li>
-		})}
-		</ul>
-
-		<FontAwesomeIcon icon={["fas", "heart"]}/>
-		<FontAwesomeIcon icon={["far", "heart"]}/>
-		<FontAwesomeIcon icon={["fas", "heartbeat"]}/>
+		<div>
+			<h1>Services:</h1>
+			<ul>
+			{props.results.map(result => {
+				let color = result.status == 200
+					? {color: 'green'}
+					: {color: 'red'}
+				return <li style={color}>{result.name}</li>
+			})}
+			</ul>
+		</div>
+		<div>
+			<FontAwesomeIcon icon={["fas", "heart"]}/>
+			<FontAwesomeIcon icon={["far", "heart"]}/>
+			<FontAwesomeIcon icon={["fas", "heartbeat"]}/>
+		</div>
 	</div>
 )
 
@@ -51,7 +54,6 @@ Index.getInitialProps = async function() {
 		name: 'commuter',
 		status: commuterStatus
 	}]}
-
 }
 
 export default Index
