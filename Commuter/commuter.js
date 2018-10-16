@@ -1,19 +1,21 @@
 const express = require('express')
 const app = express()
-const fetch = require('isomorphic-unfetch')
+const axios = require('axios');
 
 const port = 3004
 
 app.get('/', function(req, res) {
+	res.send('Hello commuter!')
+})
 
-	const health = {health: true}
-
-	// TODO POST to history here, the result of the health check.
-
-	res.send({
-		message: 'Hello commuter!'
-		// TODO return the result of the save
-	})
+app.get('/go', async function(req, res) {
+	axios.get('http://subscription:3003/api/subscriptions')
+		.then(result => {
+			console.log(result.data)
+			res.send( result.data )
+		}).catch(error => {
+			console.log(error);
+		});
 })
 
 app.get('/health' , function(req, res) {
