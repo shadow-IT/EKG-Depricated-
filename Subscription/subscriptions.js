@@ -8,41 +8,47 @@ client.on('error', function (err) {
 	console.log('Something went wrong ' + err);
 });
 
-exports.set = function(serviceName, serviceUrl) {
-	return client.set(serviceName, serviceUrl, function (error, result) {
+exports.set = function(serviceName, serviceUrl, callback) {
+	client.set(serviceName, serviceUrl, function (error, result) {
 		console.log('client.set ' +serviceName+ ' url:' +serviceUrl)
 		if (error) {
 			console.log(error);
 			throw error;
 		}
-		return result
+		callback({result})
 	});
 }
 
-exports.size = function() {
-	return client.dbsize(function(error, result) {
+exports.size = function(callback) {
+	client.dbsize(function(error, result) {
 		console.log('result:',result)
-		return {result}
+		callback({result})
 	})
 }
 
-exports.get = function(serviceName) {
-	return client.get(serviceName, function (error, result) {
+exports.get = function(serviceName, callback) {
+	client.get(serviceName, function (error, result) {
 		console.log('client.get,', serviceName)
 		if (error) {
 			console.log(error);
 			throw error;
 		}
 		console.log('GET result ->' + result);
-		return result
+		callback({result})
 	});
 }
 
-exports.all = function() {
-	return client.keys('*', function (err, keys) {
+exports.all = function(callback) {
+	client.keys('*', function (err, keys) {
 		if (err) return console.log(err);
+		console.log('keys=',keys)
 
-		console.log('keys:',keys)
-		return keys
-	});  
+		let result = []
+		keys.forEach(key => result.push({
+			name: key
+		}))
+
+		console.log('result:',{result})
+		callback({result})
+	});
 }

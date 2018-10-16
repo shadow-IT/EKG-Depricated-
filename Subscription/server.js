@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 })); 
 
 properties.services.map(service => {
-	set(service.name, service.url)
+	set(service.name, service.url, () => console.log('Set subscription:',service.name))
 });
 
 
@@ -26,18 +26,18 @@ app.get('/health' , function(req, res) {
 })
 
 app.get('/api', function(req, res) {
-	res.send( size() )
+	size(result => res.send(result))
 })
 
 app.get('/api/subscriptions', function(req, res) {
 	console.log('getting all keys')
-	res.send( all() )
+	all(result => res.send(result))
 })
 
 app.get('/api/subscriptions/:serviceName', function(req, res) {
 	const serviceName = req.params.serviceName
 	console.log('getting sub for service:',serviceName)
-	res.send( get(serviceName) )
+	get(serviceName, result => res.send(result))
 })
 
 app.patch('/api/properties', function(req, res) {
@@ -58,7 +58,7 @@ app.post('/api/:serviceName', function(req, res) {
 	}
 
 	console.log(serviceName)
-	res.send( set(serviceName, url) )
+	set(serviceName, url, result => res.send(result))
 })
 
 console.log('Listening on port:',PORT)
