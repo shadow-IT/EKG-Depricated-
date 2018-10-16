@@ -51,6 +51,7 @@ Index.getInitialProps = async function() {
 		name: 'commuter',
 		status: commuterStatus
 	}]}
+
 }
 
 export default Index

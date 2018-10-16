@@ -37,3 +37,12 @@ exports.get = function(serviceName) {
 		return result
 	});
 }
+
+exports.all = function() {
+	return client.keys('*', function (err, keys) {
+		if (err) return console.log(err);
+
+		console.log('keys:',keys)
+		return keys
+	});  
+}

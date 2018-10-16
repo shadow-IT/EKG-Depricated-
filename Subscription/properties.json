@@ -1,15 +1,12 @@
 {
 	"services": [{
-		"name": "testService1",
-		"url": "testurl.com"
+		"name": "okay1",
+		"url": "httpstat.us/200"
 	},{
-		"name": "testService2",
-		"url": "testurl2.com"
+		"name": "okay2",
+		"url": "httpstat.us/200"
 	},{
-		"name": "testService3",
-		"url": "testurl3.com"
-	},{
-		"name": "testService4",
-		"url": "testurl4.com"
+		"name": "down1",
+		"url": "httpstat.us/503"
 	}]
 }
