@@ -1,39 +1,50 @@
-var redis = require('redis');
-var client = redis.createClient('https://redis-subscription');
-client.on('connect', function() {
-	console.log('Redis client connected');
+const mongodb = require('mongodb');
+const config = require('./db');
+const client = mongodb.MongoClient;
+
+client.connect(config.DB, function(err, db) {
+    if(err) {
+        console.log('database is not connected')
+    }
+    else {
+        console.log('connected!!')
+    }
 });
 
-client.on('error', function (err) {
-	console.log('Something went wrong ' + err);
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://mongo/test');
+
+/*
+var kittySchema = new mongoose.Schema({
+  name: String
 });
 
-exports.set = function(serviceName, serviceUrl) {
-	return client.set(serviceName, serviceUrl, function (error, result) {
-		console.log('client.set ' +serviceName+ ' url:' +serviceUrl)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		return result
-	});
+kittySchema.methods.speak = function () {
+  var greeting = this.name
+    ? "Meow name is " + this.name
+    : "I don't have a name";
+  console.log(greeting);
 }
 
-exports.size = function() {
-	return client.dbsize(function(error, result) {
-		console.log('result:',result)
-		return {result}
-	})
+var Kitten = mongoose.model('Kitten', kittySchema);
+
+var fluffy = new Kitten({ name: 'fluffy' });
+fluffy.speak(); // "Meow name is fluffy"
+*/
+
+
+exports.set = function(serviceName, serviceUrl, callback) {
+	callback({call:'set'})
 }
 
-exports.get = function(serviceName) {
-	return client.get(serviceName, function (error, result) {
-		console.log('client.get,', serviceName)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		console.log('GET result ->' + result);
-		return result
-	});
+exports.size = function(callback) {
+	callback({call: 'size'})
+}
+
+exports.get = function(serviceName, callback) {
+	callback({call: 'get'})
+}
+
+exports.all = function(callback) {
+	callback({call: 'all'})
 }

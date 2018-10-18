@@ -5,15 +5,13 @@ const fetch = require('isomorphic-unfetch')
 const port = 3004
 
 app.get('/', function(req, res) {
-
-	const health = {health: true}
-
-	// TODO POST to history here, the result of the health check.
-
-	res.send({
-		message: 'Hello commuter!'
-		// TODO return the result of the save
-	})
+	axios.get('https://httpstat.us/200')
+		.then(result => {
+			console.log('result=',result)
+			res.send(result.data)
+		}).catch(error => {
+			console.log(error)
+		});
 })
 
 app.get('/health' , function(req, res) {

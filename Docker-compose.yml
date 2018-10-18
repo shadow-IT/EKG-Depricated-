@@ -18,6 +18,11 @@ services:
     ports:
       - "6380:6379"
 
+  mongo:
+    image: mongo
+    ports:
+      - "27107:27107"
+
   cadence:
     image: cadence
     ports:
