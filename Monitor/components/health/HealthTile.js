@@ -11,6 +11,8 @@ const HealthTile = props => (
     </div>
 );
 
+HealthTile.displayName = 'HealthTile';
+
 HealthTile.propTypes = {
     name: PropTypes.string.isRequired
 };
