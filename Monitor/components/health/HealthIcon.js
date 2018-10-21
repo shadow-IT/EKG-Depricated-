@@ -9,7 +9,8 @@ library.add(fasHeart, farHeart);
 
 function getStyle(props) {
     return {
-        color: 'red'
+        color: 'red',
+        fontSize: '3em'
     };
 }
 

@@ -1,12 +1,11 @@
 import fetch from 'isomorphic-unfetch';
 
-import HealthTile from '../components/health/HealthTile';
+import HealthContainer from '../components/health/HealthTileContainer';
 
 const Index = (props) => (
 	<div>
 		<h1>Refresh test</h1>
-		{/* TODO: I don't like passing alive like this. */}
-		{props.results.map(result => <HealthTile key={result.name} name={result.name} alive={result.status === 200}/>)}
+		<HealthContainer statuses={props.results}/>
 	</div>
 );
 
