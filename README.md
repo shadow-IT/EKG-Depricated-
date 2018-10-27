@@ -6,7 +6,7 @@
 | :---:			| :--- 													|
 | Monitor 		| The UI where the data is available to clients. 		|
 | Cadence 		| Controls the pace of the data collection 				|
-| Subscription 	| Contains the configuration data for the application 	|
+| Subscription 	| Contains the subscription data for the application 	|
 | Commuter 		| Travels to the services to check their status 		|
 | History		| Contains the history of status and current status		|
 
