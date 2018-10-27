@@ -4,11 +4,11 @@
 **To provide the historical data about EKG subscribers. This includes recent and historical data of the successes and failures to reach the subscriber.**
 
 ## API
-| method 	| resource 			| params 	| result 		|
-| ---		| ---				| ---		| ---			|
-| GET 		| /					| N/a 		| none 			|
-| GET 		| /api 				| N/a 		| {result: int} |
-| PUT		| /api/:serviceName | url 		| none || 400	|
+| method 	| resource 			| params 				| result 		|
+| ---		| ---				| ---					| ---			|
+| GET 		| /					| N/a 					| none 			|
+| GET 		| /api 				| N/a 					| {result: int} |
+| PUT		| /api/:serviceName | serviceName: String 	| none or 400	|
 
 ## Usage
 As a user of this API 
