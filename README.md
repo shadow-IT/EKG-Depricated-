@@ -2,13 +2,13 @@
 
 ## Subsystems and Descriptions
 
-| Name 			| Description 											|
-| :---:			| :--- 													|
-| Monitor 		| The UI where the data is available to clients. 		|
-| Cadence 		| Controls the pace of the data collection 				|
-| Subscription 	| Contains the configuration data for the application 	|
-| Commuter 		| Travels to the services to check their status 		|
-| History		| Contains the history of status and current status		|
+| Name 			| Description 											| port	|
+| :---:			| :--- 													| :---:	|
+| Monitor 		| The UI where the data is available to clients. 		| 3000	|
+| History		| Contains the history of status and current status		| 3001	|
+| Cadence 		| Controls the pace of the data collection 				| 3002	|
+| Subscription 	| Contains the configuration data for the application 	| 3003	|
+| Commuter 		| Travels to the services to check their status 		| 3004	|
 
 
 ## Purpose
