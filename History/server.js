@@ -52,15 +52,9 @@ app.get('/api/:serviceName', function(req, res) {
 app.post('/api', function(req, res) {
 	const serviceName = req.body.serviceName
 	const serviceResponse = req.body.serviceResponse
-	client.set(serviceName, serviceResponse, function (error, result) {
-		console.log('client.SET,', serviceName)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		console.log('SET result ->' + result);
-		res.send(result)
-	});
+	console.log('Recieved history information for',serviceName,'with response',serviceResponse)
+	// TODO save sub response to history and respond with success
+	res.send(200)
 })
 
 console.log('Listening on port:',PORT)
