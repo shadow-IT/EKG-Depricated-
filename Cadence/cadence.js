@@ -26,23 +26,47 @@ app.get('/health' , function(req, res) {
 
 /* retrieve the subscriptions and their data. */
 // const subs = axios.get('http://subscription:3003/p/cadence')
-var rule = new schedule.RecurrenceRule();
-rule.second = 5;
+// TODO remove subs fake data
 const subs = [{
 	subscriptionName: 'testSub1',
-	timingRule: rule
+	cadence: 1500,
 }, {
 	subscriptionName: 'testSub222',
-	timingRule: {second: 1}
+	cadence: 3000,
 }]
 console.log('subs:', subs)
-subs.forEach(sub => {
-	const subName = sub.subscriptionName
-	const subRule = sub.timingRule
-	var j = schedule.scheduleJob(subRule, function(){
-		console.log('Calling subscription to...', subName);
-	}.bind(null, subName));
-});
 
+// define function for each sub
+// Higher order
+let myFunc = (sub) => {
+	return () => {
+		// TODO call commuter here
+		const res = axios.get('https://httpstat.us/200')
+		.then(res => console.log('cadence:',sub.cadence,'; result:',res.data,';'))
+		.catch(error => {
+			console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
+		})
+
+		// No need to return. This is a procedure.
+		// Maybe record all of the 'ticks' for each subscriber??? Probably overkill. Just log failures.
+	}
+}
+
+// close the subs into the function and return the list of funcs properly scoped
+let subFuncs = subs.map(sub => {
+	return {
+		func: myFunc(sub),
+		name: sub.subscriptionName,
+		cadence: sub.cadence,
+	}
+})
+
+// set the timer for each sub func
+let subTimers = subFuncs.map(function({func, name: serviceName, cadence}){
+	return {
+		timer: setInterval(func, cadence),
+		name: serviceName
+	}
+});
 
 app.listen(port, () => console.log(`Cadence listening on port ${port}!`))
