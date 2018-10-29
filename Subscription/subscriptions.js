@@ -26,14 +26,14 @@ exports.size = function() {
 	})
 }
 
-exports.get = function(serviceName) {
-	return client.get(serviceName, function (error, result) {
+exports.get = async function(serviceName, callback) {
+	client.get(serviceName, function (error, result) {
 		console.log('client.get,', serviceName)
 		if (error) {
 			console.log(error);
 			throw error;
 		}
 		console.log('GET result ->' + result);
-		return result
+		callback(result)
 	});
 }
