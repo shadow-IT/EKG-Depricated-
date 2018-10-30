@@ -33,16 +33,26 @@ fluffy.speak(); // "Meow name is fluffy"
 */
 
 
-exports.set = function(serviceName, serviceUrl, callback) {
-	callback({call:'set'})
-}
-
 exports.size = function(callback) {
-	callback({call: 'size'})
+	client.dbsize(function(error, result) {
+		if (error) {
+			callback(500);
+			throw error;
+		}
+		else
+			callback(result);
+	});
 }
 
-exports.get = function(serviceName, callback) {
-	callback({call: 'get'})
+exports.set = function(serviceName, serviceUrl, callback) {
+	client.set(serviceName, serviceUrl, function (error, result) {
+		if (error) {
+			callback(500);
+			throw error;
+		}
+		else
+			callback(result);
+	});
 }
 
 exports.get = async function(serviceName, callback) {

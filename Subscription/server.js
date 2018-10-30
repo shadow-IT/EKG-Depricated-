@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser')
-var redis = require('redis');
 let properties = require('./properties.json')
 let { set, size, get } = require('./subscriptions.js')
 var app = express();
@@ -10,16 +9,7 @@ const PORT = 3003
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
-})); 
-var client = redis.createClient('https://redis-subscription');
-
-client.on('connect', function() {
-	console.log('Redis client connected');
-});
-
-client.on('error', function (err) {
-	console.log('Something went wrong ' + err);
-});
+}));
 
 properties.services.map(service => {
 	let serviceName = service.name
@@ -38,7 +28,7 @@ app.get('/health' , function(req, res) {
 })
 
 app.get('/api', function(req, res) {
-	res.send( size() )
+	size((result) => res.send(result))
 })
 
 app.get('/api/subscribers', function(req, res) {
