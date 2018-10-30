@@ -19,7 +19,7 @@ services:
       - "6380:6379"
 
   cadence:
-    image: cadence
+    image: shadowit/cadence
     ports:
       - "3002:3002"
     deploy:
@@ -30,7 +30,7 @@ services:
       - subscription
 
   history:
-    image: history
+    image: shadowit/history
     deploy:
       replicas: 1
       restart_policy:
@@ -41,7 +41,7 @@ services:
       - redis-status
 
   subscription:
-    image: subscription
+    image: shadowit/subscription
     ports:
       - "3003:3003"
     deploy:
@@ -52,7 +52,7 @@ services:
       - redis-subscription
 
   commuter:
-    image: commuter
+    image: shadowit/commuter
     ports:
       - "3004:3004"
     deploy:
@@ -65,7 +65,7 @@ services:
       - cadence
 
   monitor:
-    image: monitor
+    image: shadowit/monitor
     ports:
       - "3000:3000"
     deploy:
