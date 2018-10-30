@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node cadence.js",
     "start": "NODE_ENV=production node cadence.js",
-    "image": "docker build -t cadence . --no-cache"
+    "image": "docker build -t shadowit/cadence . --no-cache"
   },
   "author": "Avery Lindley <develop.lindley@gmail.com>",
   "license": "ISC",
