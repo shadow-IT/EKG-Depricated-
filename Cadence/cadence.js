@@ -34,16 +34,16 @@ axios.get('http://subscription:3003/api/subscribers')
 	// define function for each sub
 	// Higher order
 	let myFunc = (sub) => {
-		return () => {
-			// TODO call commuter here
+		
+		return async () => {
 			console.log('Requesting a commute:',sub.subscriptionName)
-			const res = axios.get('http://commuter:3004/api/'+sub.subscriptionName)
+
+			const data = await axios.get('http://commuter:3004/api/'+sub.subscriptionName)
 			.catch(error => {
 				console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
 			})
-
-			// No need to return. This is a procedure.
-			// Maybe record all of the 'ticks' for each subscriber??? Probably overkill. Just log failures.
+			.then(res => res.data)
+			.then(data => console.log('commuter response -----',data))
 		}
 	}
 

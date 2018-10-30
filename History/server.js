@@ -54,7 +54,7 @@ app.post('/api', function(req, res) {
 	const serviceResponse = req.body.serviceResponse
 	console.log('Recieved history information for',serviceName,'with response',serviceResponse)
 	// TODO save sub response to history and respond with success
-	res.send(200)
+	res.sendStatus(200)
 })
 
 console.log('Listening on port:',PORT)

@@ -14,11 +14,22 @@ client.connect(config.DB, function(err, db) {
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo/test');
 
-/*
-var kittySchema = new mongoose.Schema({
-  name: String
+
+var subscriptionSchema = new mongoose.Schema({
+	id: Number,
+	name: String,
+	contact: String,
+	url: String,
+	cadence: Number
 });
 
+subscriptionSchema.methods.announce = function() {
+	console.log('A new sub has been created for',this.name)
+}
+
+var Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+/*
 kittySchema.methods.speak = function () {
   var greeting = this.name
     ? "Meow name is " + this.name
@@ -34,35 +45,32 @@ fluffy.speak(); // "Meow name is fluffy"
 
 
 exports.size = function(callback) {
-	client.dbsize(function(error, result) {
-		if (error) {
-			callback(500);
-			throw error;
-		}
-		else
-			callback(result);
-	});
+	// client.dbsize(function(error, result) {
+	// 	if (error) {
+	// 		callback(500);
+	// 		throw error;
+	// 	}
+	// 	else
+	// 		callback(result);
+	// });
 }
 
-exports.set = function(serviceName, serviceUrl, callback) {
-	client.set(serviceName, serviceUrl, function (error, result) {
-		if (error) {
-			callback(500);
-			throw error;
+exports.set = function(subInfo, callback) {
+	Subscription.create(subInfo, function(err, results) {
+		if(err) {
+			console.log(err)
+			throw err
+		} else {
+			console.log('results set:',results)
 		}
-		else
-			callback(result);
+
 	});
 }
 
 exports.get = async function(serviceName, callback) {
-	client.get(serviceName, function (error, result) {
-		console.log('client.get,', serviceName)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		console.log('GET result ->' + result);
-		callback(result)
-	});
+	Subscription.findOne({name: serviceName}, function(err, sub) {
+		if (err) console.log('error get:',err) // TODO
+		// console.log('Found a subscription for',sub.name);
+		callback(sub);
+	})
 }

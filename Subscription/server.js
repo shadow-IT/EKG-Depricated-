@@ -12,10 +12,14 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 properties.services.map(service => {
-	let serviceName = service.name
-	let serviceUrl = service.url
+	const subInfo = {
+		name: service.name,
+		url: service.url,
+		contact: service.contact,
+		cadence: service.cadence
+	}
 
-	set(serviceName, serviceUrl)
+	set(subInfo, (result) => res.send(result)) 
 });
 
 
@@ -42,7 +46,7 @@ app.get('/api/subscribers', function(req, res) {
 
 app.get('/api/:serviceName', async function(req, res) {
 	const serviceName = req.params.serviceName
-	console.log('Got a request for subscriber information. Subscriber',serviceName)
+	// console.log('Got a request for subscriber information. Subscriber',serviceName)
 	get(serviceName, (result) => res.send(result))
 })
 
@@ -53,18 +57,15 @@ app.patch('/api/properties', function(req, res) {
 })
 
 app.post('/api/:serviceName', function(req, res) {
-	const serviceName = req.params.serviceName
-	const url = req.body.url
-
-	if(!serviceName || !url){
-		res.statusCode = 400
-		console.log('A param is missing')
-		res.send('A required param is missing.')
-		return
+	const subInfo = {
+		name: req.params.serviceName,
+		url: req.body.url,
+		contact: req.body.contact,
+		cadence: req.body.cadence
 	}
 
-	console.log(serviceName)
-	res.send( set(serviceName, url) )
+	console.log(subInfo)
+	set(subInfo, (result) => res.send(result)) 
 })
 
 console.log('Listening on port:',PORT)
