@@ -45,6 +45,14 @@ exports.get = function(serviceName, callback) {
 	callback({call: 'get'})
 }
 
-exports.all = function(callback) {
-	callback({call: 'all'})
+exports.get = async function(serviceName, callback) {
+	client.get(serviceName, function (error, result) {
+		console.log('client.get,', serviceName)
+		if (error) {
+			console.log(error);
+			throw error;
+		}
+		console.log('GET result ->' + result);
+		callback(result)
+	});
 }

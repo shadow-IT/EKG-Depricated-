@@ -1,15 +1,19 @@
 {
 	"services": [{
 		"name": "testService1",
-		"url": "testurl.com"
+		"url": "https://httpstat.us/200",
+		"cadence": 3000
 	},{
 		"name": "testService2",
-		"url": "testurl2.com"
+		"url": "https://httpstat.us/200",
+		"cadence": 3000
 	},{
 		"name": "testService3",
-		"url": "testurl3.com"
+		"url": "https://httpstat.us/200",
+		"cadence": 3000
 	},{
 		"name": "testService4",
-		"url": "testurl4.com"
+		"url": "https://httpstat.us/400",
+		"cadence": 3000
 	}]
 }

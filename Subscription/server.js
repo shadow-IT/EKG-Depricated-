@@ -41,9 +41,19 @@ app.get('/api', function(req, res) {
 	res.send( size() )
 })
 
-app.get('/api/:serviceName', function(req, res) {
+app.get('/api/subscribers', function(req, res) {
+	console.log('Providing ALL of the subscriptions.')
+	// TODO 
+	res.json({result :[{
+		subscriptionName: 'testService1',
+		cadence: 1500,
+	}]})
+})
+
+app.get('/api/:serviceName', async function(req, res) {
 	const serviceName = req.params.serviceName
-	res.send( get(serviceName) )
+	console.log('Got a request for subscriber information. Subscriber',serviceName)
+	get(serviceName, (result) => res.send(result))
 })
 
 app.patch('/api/properties', function(req, res) {

@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "image": "docker build -t monitor ."
+    "image": "docker build -t shadowit/monitor . --no-cache"
   },
   "author": "Avery Lindley <Develop.lindley@gmail.com>",
   "license": "ISC",

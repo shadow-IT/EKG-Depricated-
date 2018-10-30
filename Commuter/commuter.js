@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const axios = require('axios')
-const {performance} = require('perf_hooks');
+const fetch = require('isomorphic-unfetch')
 
 axios.interceptors.request.use(function (config) {
 
@@ -33,6 +33,34 @@ app.get('/', function(req, res) {
 
 app.get('/health' , function(req, res) {
 	res.sendStatus(200)
+})
+
+app.get('/api/:subscriptionName', async function(req, res) {
+	const subName = req.params.subscriptionName
+
+	console.log('Got a reqest to commute to',subName)
+	console.log('Need to retrieve the URL first. Requesting URL for',subName)
+
+	const url = await axios.get('http://subscription:3003/api/'+subName)
+	.then(res => res.data)
+	.then(data => {
+		console.log('Got the URL information!',data)
+		return data
+	})
+
+	const subResponse = await axios.get(url)
+	.then(res => res.data)
+	.then(data => {
+		console.log('Got a response from subscriber',subName,data)
+		return data
+	})
+	
+	const historyResponse = await axios.post('http://history:3001/api/', {
+		serviceName: subName,
+		serviceResponse: subResponse
+	})
+	.then(res => res.data)
+	.then(data => console.log('Got a response from History!',data))
 })
 
 app.listen(port, () => console.log(`Commuter listening on port ${port}!`))

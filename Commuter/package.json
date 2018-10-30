@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "node commuter.js",
 		"start": "NODE_ENV=production node commuter.js",
-		"image": "docker build -t commuter . --no-cache"
+		"image": "docker build -t shadowit/commuter . --no-cache"
 	},
 	"author": "Avery Lindley <Develop.lindley@gmail.com>",
 	"license": "ISC",
