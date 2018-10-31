@@ -1,27 +1,18 @@
 var express = require('express');
 var bodyParser = require('body-parser')
-var redis = require('redis');
-
 var app = express();
 var bodyParser = require('body-parser')
+let history = require('./history')
+
 const PORT = 3001
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 })); 
-var client = redis.createClient('https://redis-status');
-
-client.on('connect', function() {
-	console.log('Redis client connected');
-});
-
-client.on('error', function (err) {
-	console.log('Something went wrong ' + err);
-});
-
 
 app.get('/', function(req, res){
+	// TODO
 	res.send('hello History!');
 });
 
@@ -30,23 +21,13 @@ app.get('/health', function(req, res) {
 })
 
 app.get('/api', function(req, res) {
-	client.dbsize(function(error, result) {
-		console.log('result:',result)
-		res.send({result})
-	})
+	// TODO
+	res.sendStatus(200)
 })
 
 app.get('/api/:serviceName', function(req, res) {
-	const serviceName = req.params.serviceName
-	client.get(serviceName, function (error, result) {
-		console.log('client.get,', serviceName)
-		if (error) {
-			console.log(error);
-			throw error;
-		}
-		console.log('GET result ->' + result);
-		res.send(result)
-	});
+	// TODO
+	res.sendStatus(200)
 })
 
 app.post('/api', function(req, res) {
