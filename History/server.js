@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var app = express();
 var bodyParser = require('body-parser')
-let history = require('./history')
+let {saveHistory} = require('./history')
 
 const PORT = 3001
 
@@ -31,11 +31,8 @@ app.get('/api/:serviceName', function(req, res) {
 })
 
 app.post('/api', function(req, res) {
-	const serviceName = req.body.serviceName
-	const serviceResponse = req.body.serviceResponse
-	console.log('Recieved history information for',serviceName,'with response',serviceResponse)
 	// TODO save sub response to history and respond with success
-	res.sendStatus(200)
+	saveHistory(req, (result) => res.send(result))
 })
 
 console.log('Listening on port:',PORT)

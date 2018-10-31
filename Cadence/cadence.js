@@ -27,7 +27,7 @@ app.get('/health' , function(req, res) {
 // const subs = axios.get('http://subscription:3003/p/cadence')
 // TODO remove subs fake data
 axios.get('http://subscription:3003/api/subscribers')
-.then(res => res.data.result)
+.then(res => res.data)
 .then(subs => {
 	console.log('Retrieved the subs!:',subs)
 
@@ -36,14 +36,13 @@ axios.get('http://subscription:3003/api/subscribers')
 	let myFunc = (sub) => {
 		
 		return async () => {
-			console.log('Requesting a commute:',sub.subscriptionName)
+			console.log('Requesting a commute:',sub.name)
 
-			const data = await axios.get('http://commuter:3004/api/'+sub.subscriptionName)
+			const data = await axios.get('http://commuter:3004/api/'+sub.name)
 			.catch(error => {
 				console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
 			})
 			.then(res => res.data)
-			.then(data => console.log('commuter response -----',data))
 		}
 	}
 

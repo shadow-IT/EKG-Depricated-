@@ -13,18 +13,25 @@ client.connect(config.DB, function(err, db) {
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo/test');
-
+var historySchema = new mongoose.Schema({
+	status: Number,
+	text: String,
+	details: Object
+});
+var History = mongoose.model('History', historySchema);
 
 var subscriptionSchema = new mongoose.Schema({
 	id: Number,
 	name: String,
 	contact: String,
 	url: String,
-	cadence: Number
+	cadence: Number,
+	history: [historySchema],
+	latest: historySchema
 });
 
 subscriptionSchema.methods.announce = function() {
-	console.log('A new sub has been created for',this.name)
+	console.log('A new sub has been created for',this.name);
 }
 
 var Subscription = mongoose.model('Subscription', subscriptionSchema);
@@ -72,5 +79,13 @@ exports.get = async function(serviceName, callback) {
 		if (err) console.log('error get:',err) // TODO
 		// console.log('Found a subscription for',sub.name);
 		callback(sub);
+	})
+}
+
+exports.getAllSubs = async function(callback) {
+	Subscription.find({}, function(err, subs) {
+		if (err) console.log('error get:',err) // TODO
+		// console.log('Found a subscription for',sub.name);
+		callback(subs);
 	})
 }

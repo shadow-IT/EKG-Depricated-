@@ -32,21 +32,34 @@ app.get('/api/:subscriptionName', async function(req, res) {
 	})
 
 	const subResponse = await axios.get(url)
-	.then(res => res.data)
+	.then(res => {
+		return res
+	})
+	.catch(err => {
+		return err.response
+	})
 	.then(data => {
-		// console.log('Got a response from subscriber',subName,data)
-		return data
+		return {
+			cadenceStatus: data.status,
+			cadenceSummary: data.statusText,
+			details: {
+				destination: data.config.url,
+				method: data.config.method,
+				data: data.data
+			}
+		}
 	})
 	
-	const historyResponse = await axios.post('http://history:3001/api/', {
-		serviceName: subName,
-		serviceResponse: subResponse
-	})
-	.then(res => res.data)
-	.then(data => {
-		// console.log('Got a response from History!',data)
-		res.send(data)
-	})
+	const historyObject = {
+		subscriptionName: subName,
+		subscriptionResponse: subResponse
+	};
+	// console.log('=============================')
+	// console.log(historyObject)
+	// console.log('=============================')
+
+	const historyResponse = await axios.post('http://history:3001/api/', historyObject)
+	.catch(err => console.log('An error occured when calling history.',err))
 })
 
 app.listen(port, () => console.log(`Commuter listening on port ${port}!`))

@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 let properties = require('./properties.json')
-let { set, size, get } = require('./subscriptions.js')
+let { set, size, get, getAllSubs } = require('./subscriptions.js')
 var app = express();
 var bodyParser = require('body-parser')
 const PORT = 3003
@@ -35,13 +35,14 @@ app.get('/api', function(req, res) {
 	size((result) => res.send(result))
 })
 
-app.get('/api/subscribers', function(req, res) {
+app.get('/api/subscribers', async function(req, res) {
 	console.log('Providing ALL of the subscriptions.')
 	// TODO 
-	res.json({result :[{
-		subscriptionName: 'testService1',
-		cadence: 1500,
-	}]})
+	// res.json({result :[{
+	// 	subscriptionName: 'testService1',
+	// 	cadence: 1500,
+	// }]})
+	getAllSubs( (result) => res.send(result) );
 })
 
 app.get('/api/:serviceName', async function(req, res) {
