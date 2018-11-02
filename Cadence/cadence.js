@@ -2,11 +2,10 @@ const express = require('express')
 const axios = require('axios')
 const app = express()
 
-const port = 3002
+app.port = 3002
 
 app.get('/', function(req, res) {
-
-        res.send('Hello cadence!')
+	res.send('Hello cadence!')
 })
 
 app.get('/health' , function(req, res) {
@@ -63,5 +62,10 @@ axios.get('http://subscription:3003/api/subscribers')
 		}
 	});
 })
+.catch(err => {
+	console.log('Unable to complete cadence.')
+})
 
-app.listen(port, () => console.log(`Cadence listening on port ${port}!`))
+app.listen(app.port, () => console.log(`Cadence listening on port ${app.port}!`))
+
+module.exports = app; // for testing
