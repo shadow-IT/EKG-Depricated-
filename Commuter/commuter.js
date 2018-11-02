@@ -3,15 +3,10 @@ const app = express()
 const axios = require('axios')
 const fetch = require('isomorphic-unfetch')
 
-const port = 3004
+app.port = 3004
 
 app.get('/', function(req, res) {
-	axios.get('https://httpstat.us/200')
-		.then(result => {
-			res.send(result.data)
-		}).catch(error => {
-			console.log(error)
-		});
+	res.send('Hello commuter!')
 })
 
 app.get('/health' , function(req, res) {
@@ -76,4 +71,6 @@ app.get('/api/:subscriptionName', async function(req, res) {
 	})
 })
 
-app.listen(port, () => console.log(`Commuter listening on port ${port}!`))
+app.listen(app.port, () => console.log(`Commuter listening on port ${app.port}!`))
+
+module.exports = app; // For testing.
