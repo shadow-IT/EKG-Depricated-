@@ -27,23 +27,22 @@ app.get('/health' , function(req, res) {
 // const subs = axios.get('http://subscription:3003/p/cadence')
 // TODO remove subs fake data
 axios.get('http://subscription:3003/api/subscribers')
-.then(res => res.data.result)
+.then(res => res.data)
 .then(subs => {
 	console.log('Retrieved the subs!:',subs)
 
 	// define function for each sub
 	// Higher order
 	let myFunc = (sub) => {
-		return () => {
-			// TODO call commuter here
-			console.log('Requesting a commute:',sub.subscriptionName)
-			const res = axios.get('http://commuter:3004/api/'+sub.subscriptionName)
+		
+		return async () => {
+			console.log('Calling',sub.name,)
+			await axios.get('http://commuter:3004/api/'+sub.name)
+			.then(res => res.data)
+			.then(data => console.log('Pulse to',sub.name,'status',data))
 			.catch(error => {
-				console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
+				console.error('Error occured trying to initiate a commute for sub:',sub.name)
 			})
-
-			// No need to return. This is a procedure.
-			// Maybe record all of the 'ticks' for each subscriber??? Probably overkill. Just log failures.
 		}
 	}
 
@@ -51,16 +50,16 @@ axios.get('http://subscription:3003/api/subscribers')
 	let subFuncs = subs.map(sub => {
 		return {
 			func: myFunc(sub),
-			name: sub.subscriptionName,
+			name: sub.name,
 			cadence: sub.cadence,
 		}
 	})
 
 	// set the timer for each sub func
-	let subTimers = subFuncs.map(function({func, name: serviceName, cadence}){
+	let subTimers = subFuncs.map(function({func, name, cadence}){
 		return {
 			timer: setInterval(func, cadence),
-			name: serviceName
+			name: name
 		}
 	});
 })

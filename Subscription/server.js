@@ -1,8 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser')
-var redis = require('redis');
 let properties = require('./properties.json')
-let { set, size, get } = require('./subscriptions.js')
+let { set, size, get, getAllSubs } = require('./subscriptions.js')
 var app = express();
 var bodyParser = require('body-parser')
 const PORT = 3003
@@ -10,22 +9,18 @@ const PORT = 3003
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
-})); 
-var client = redis.createClient('https://redis-subscription');
+}));
 
-client.on('connect', function() {
-	console.log('Redis client connected');
-});
-
-client.on('error', function (err) {
-	console.log('Something went wrong ' + err);
-});
-
+// TODO REMOVEME this will duplicate entries if the service is started up more than once.
 properties.services.map(service => {
-	let serviceName = service.name
-	let serviceUrl = service.url
+	const subInfo = {
+		name: service.name,
+		url: service.url,
+		contact: service.contact,
+		cadence: service.cadence
+	}
 
-	set(serviceName, serviceUrl)
+	set(subInfo, (result) => res.send(result)) 
 });
 
 
@@ -38,21 +33,22 @@ app.get('/health' , function(req, res) {
 })
 
 app.get('/api', function(req, res) {
-	res.send( size() )
+	size((result) => res.send(result))
 })
 
-app.get('/api/subscribers', function(req, res) {
+app.get('/api/subscribers', async function(req, res) {
 	console.log('Providing ALL of the subscriptions.')
 	// TODO 
-	res.json({result :[{
-		subscriptionName: 'testService1',
-		cadence: 1500,
-	}]})
+	// res.json({result :[{
+	// 	subscriptionName: 'testService1',
+	// 	cadence: 1500,
+	// }]})
+	getAllSubs( (result) => res.send(result) );
 })
 
 app.get('/api/:serviceName', async function(req, res) {
 	const serviceName = req.params.serviceName
-	console.log('Got a request for subscriber information. Subscriber',serviceName)
+	// console.log('Got a request for subscriber information. Subscriber',serviceName)
 	get(serviceName, (result) => res.send(result))
 })
 
@@ -63,18 +59,15 @@ app.patch('/api/properties', function(req, res) {
 })
 
 app.post('/api/:serviceName', function(req, res) {
-	const serviceName = req.params.serviceName
-	const url = req.body.url
-
-	if(!serviceName || !url){
-		res.statusCode = 400
-		console.log('A param is missing')
-		res.send('A required param is missing.')
-		return
+	const subInfo = {
+		name: req.params.serviceName,
+		url: req.body.url,
+		contact: req.body.contact,
+		cadence: req.body.cadence
 	}
 
-	console.log(serviceName)
-	res.send( set(serviceName, url) )
+	console.log(subInfo)
+	set(subInfo, (result) => res.send(result)) 
 })
 
 console.log('Listening on port:',PORT)
