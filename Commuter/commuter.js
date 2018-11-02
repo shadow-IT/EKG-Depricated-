@@ -60,6 +60,7 @@ app.get('/api/:subscriptionName', async function(req, res) {
 
 	const historyResponse = await axios.post('http://history:3001/api/', historyObject)
 	.catch(err => console.log('An error occured when calling history.',err))
+	.then(() => res.sendStatus(200))
 })
 
 app.listen(port, () => console.log(`Commuter listening on port ${port}!`))

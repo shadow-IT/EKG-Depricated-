@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "description": "A utility to visualize the availability of systems.",
   "author": "Avery Lindley <Develop.lindley@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "image": "cd Cadence && npm run image && cd ../Commuter && npm run image && cd ../History && npm run image && cd ../Subscription && npm run image && cd ../Monitor && npm run image && echo 'Done!'"
+  }
 }

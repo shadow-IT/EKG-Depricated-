@@ -36,13 +36,13 @@ axios.get('http://subscription:3003/api/subscribers')
 	let myFunc = (sub) => {
 		
 		return async () => {
-			console.log('Requesting a commute:',sub.name)
-
-			const data = await axios.get('http://commuter:3004/api/'+sub.name)
+			console.log('Calling',sub.name,)
+			await axios.get('http://commuter:3004/api/'+sub.name)
 			.catch(error => {
 				console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
 			})
 			.then(res => res.data)
+			.then(data => console.log('Successful pulse to',sub.name,data))
 		}
 	}
 
@@ -50,16 +50,16 @@ axios.get('http://subscription:3003/api/subscribers')
 	let subFuncs = subs.map(sub => {
 		return {
 			func: myFunc(sub),
-			name: sub.subscriptionName,
+			name: sub.name,
 			cadence: sub.cadence,
 		}
 	})
 
 	// set the timer for each sub func
-	let subTimers = subFuncs.map(function({func, name: serviceName, cadence}){
+	let subTimers = subFuncs.map(function({func, name, cadence}){
 		return {
 			timer: setInterval(func, cadence),
-			name: serviceName
+			name: name
 		}
 	});
 })
