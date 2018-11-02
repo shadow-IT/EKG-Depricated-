@@ -30,6 +30,13 @@ app.get('/api/:subscriptionName', async function(req, res) {
 		// console.log('Got the URL information!',data)
 		return data.url
 	})
+	.catch(err => {
+		console.log('Error communicating with subscription for,',subName)
+		res.send(500, 'Error communicating with subscription for',subName)
+	})
+
+	if (!url)
+		return;
 
 	const subResponse = await axios.get(url)
 	.then(res => {
@@ -49,6 +56,9 @@ app.get('/api/:subscriptionName', async function(req, res) {
 			}
 		}
 	})
+
+	if (!subResponse)
+		return;
 	
 	const historyObject = {
 		subscriptionName: subName,
@@ -59,8 +69,11 @@ app.get('/api/:subscriptionName', async function(req, res) {
 	// console.log('=============================')
 
 	const historyResponse = await axios.post('http://history:3001/api/', historyObject)
-	.catch(err => console.log('An error occured when calling history.',err))
 	.then(() => res.sendStatus(200))
+	.catch(err => {
+		console.log('An error occured when calling history.',historyObject.subscriptionName)
+		res.send(500, 'Failed to save the results for',historyObject.subscriptionName)
+	})
 })
 
 app.listen(port, () => console.log(`Commuter listening on port ${port}!`))

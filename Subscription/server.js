@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 
+// TODO REMOVEME this will duplicate entries if the service is started up more than once.
 properties.services.map(service => {
 	const subInfo = {
 		name: service.name,

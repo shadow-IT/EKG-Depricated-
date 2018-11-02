@@ -38,11 +38,11 @@ axios.get('http://subscription:3003/api/subscribers')
 		return async () => {
 			console.log('Calling',sub.name,)
 			await axios.get('http://commuter:3004/api/'+sub.name)
-			.catch(error => {
-				console.error('Error occured trying to initiate a commute for sub:',sub,'.', error)
-			})
 			.then(res => res.data)
-			.then(data => console.log('Successful pulse to',sub.name,data))
+			.then(data => console.log('Pulse to',sub.name,'status',data))
+			.catch(error => {
+				console.error('Error occured trying to initiate a commute for sub:',sub.name)
+			})
 		}
 	}
 
