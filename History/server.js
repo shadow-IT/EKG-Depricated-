@@ -4,7 +4,7 @@ var app = express();
 var bodyParser = require('body-parser')
 let {saveHistory} = require('./history')
 
-const PORT = 3001
+app.port = 3001
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.get('/', function(req, res){
 	// TODO
-	res.send('hello History!');
+	res.send('Hello History!');
 });
 
 app.get('/health', function(req, res) {
@@ -35,5 +35,6 @@ app.post('/api', function(req, res) {
 	saveHistory(req, (result) => res.send(result))
 })
 
-console.log('Listening on port:',PORT)
-app.listen(PORT);
+app.listen(app.port, () => console.log(`Cadence listening on port ${app.port}!`))
+
+module.exports = app; // For testing.
